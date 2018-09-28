@@ -10,29 +10,36 @@
 <body>
     <div class="contenedor">
         <div class="marco">
-            <div class="pantalla">
+            <button id="reload">Reiniciar</button>
+            <button id="empezar">EMPEZAR LA BATALLA!</button>
+            <div class="pantalla" id="pantalla">                
                 <div class="personajes">
-                        <progress id='vidaProgressV' class='barraVida' value="100" max="100"></progress>
+                    <div class="barradiv">
+                        <progress id='barra_de_vida_vegeta' class='barraVida' data-life=100 ></progress>
+                    </div>
+                        
                         <figure>
-                            <img src="img/vegeta.png" alt="vegeta" width="100%" height="100%">
+                            <img src="img/vegeta.png" alt="vegeta" id="fotoV" width="100%" height="100%">
                         </figure>
                     <div class="nombre"><p>Vegeta</p></div>   
                     <div class="estadisticas">
-                        <p>Vida: <span id='spanVidaV'>100</span></p>
-                        <p>Último golpe: <span id='spanUltiV'>0</span></p>
+                        <p>Vida: <span id='span_vida_vegeta'>100</span></p>
+                        <p>Último golpe: <span id='span_golpe_vegeta'>0</span></p>
                     </div> 
                     <button type="button" value='vegeta' id='btn-atacar-v'>¡Atacar!</button>                 
                 </div>
 
                 <div class="personajes">
-                        <progress id='vidaProgressG' class="barraVida" value="100" max="100"></progress>
+                    <div class="barradiv">
+                        <progress id='barra_de_vida_goku'  class="barraVida" value="100" max="100"></progress>
+                    </div>                        
                         <figure>
-                            <img src="img/goku.png" alt="vegeta" width="100%" height="100%">
+                            <img src="img/goku.png" alt="vegeta" id="fotoG" width="100%" height="100%">
                         </figure>
                     <div class="nombre"><p>Goku</p></div>   
                     <div class="estadisticas">
-                        <p>Vida: <span  id='spanVidaG'>100</span></p>
-                        <p>Último golpe: <span id='spanUltiG'>0</span></p>
+                        <p>Vida: <span  id='span_vida_goku'>100</span></p>
+                        <p>Último golpe: <span id='span_golpe_goku'>0</span></p>
                     </div>
                     <button type="button" value='goku' id='btn-atacar-g'>¡Atacar!</button>  
                 </div>                
