@@ -1,0 +1,50 @@
+.arenas{
+    display: grid;
+    grid-template-columns: 200px 200px;
+    justify-content: center;
+    align-items: center;
+    grid-column-gap: 15px;
+
+}
+.arenas h1{
+    grid-column:  1 / span 2;
+    text-align: center;
+}
+.arenas figure{
+    position: relative;
+    height: 200px;
+    width: 200px;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+.load-icon-active{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+ 
+}
+.load-icon-desactive{
+    display: none;
+}
+
+ .load-icon-active svg{
+    animation-name: loading;
+    animation-iteration-count:infinite;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+}
+
+@keyframes loading{
+    to{
+        transform: rotate(360deg);
+    }
+    from{
+         transform: rotate(0deg);
+    }
+}

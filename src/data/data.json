@@ -1,0 +1,46 @@
+{
+    "arena":[
+        {
+            "nombre":"Namek",
+            "ruta":"campo1.png",
+            "id":"1"
+        },
+        {
+            "nombre":"Arena de Cell",
+            "ruta":"campo2.jpg",
+            "id":"2"
+        }
+    ],
+    "personajes":[
+        {
+            "nombre":"Goku",
+            "id":"1",
+            "image_pelea": "goku.png",
+            "image_face": "goku.png"
+        },
+        {
+            "nombre":"Vegeta",
+            "id":"2",
+            "image_pelea":"vegeta.jpg",
+            "image_face": "vegeta.png"
+        },
+        {
+            "nombre":"Gohan",
+            "id":"3",
+            "image_pelea":"gohan.png",
+            "image_face": "gohan.jpg"
+        },
+        {
+            "nombre":"Picolo",
+            "id":"4",
+            "image_pelea":"picolo.png",
+            "image_face": "picolo.png"
+        },
+        {
+            "nombre":"Trunk",
+            "id":"5",
+            "image_pelea":"trunk.png",
+            "image_face": "trunk.png"
+        }
+    ] 
+}
