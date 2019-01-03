@@ -1,6 +1,6 @@
 import data from '../data/data';
 import './personajes.css';
-
+import iniciarBatalla from './batalla';
 const $personajes = document.createElement('div');
 $personajes.setAttribute('class','personajes');
 const $personajesItems = document.createElement('div');
@@ -9,7 +9,8 @@ const $selectedTemplate = document.createElement('div');
 $selectedTemplate.setAttribute('class','select-personaje')
 const $itemsPersonaje = document.createElement('div');
 $itemsPersonaje.setAttribute('class','items-personajes');
-
+const PS1 = null;
+const PS2 = null;
 
 let p1 = false;
 let p2 = false;
@@ -76,7 +77,6 @@ const selectedP = (ev) =>{
             $img.setAttribute('width','100px'); 
             $img.setAttribute('height','100px');            
             const clone  = $img.cloneNode();
-
             $checkP1.innerHTML = "";
             $checkP1.appendChild(clone);
             const $btnFijar = document.createElement('button');
@@ -149,13 +149,15 @@ const selectedP = (ev) =>{
    }
 }
 const selectCheckP = (ev) =>{
+    
     ev.target.parentNode.previousElementSibling.disabled = true;
     ev.target.disabled = true;  
     if(p1){
-        console.log('Esta listo!!!')
+        let PID = document.querySelectorAll('.photo-select-check');
+        iniciarBatalla(PID[0].firstElementChild.dataset.p,PID[1].firstElementChild.dataset.p)
     }else{
        p1 = true; 
-       document.getElementById('randon-2').disabled = false;
+       document.getElementById('randon-2').disabled = false;      
     }
     
 }

@@ -1,0 +1,33 @@
+.batallaContainer .box-character-container{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .batallaContainer .box-character-container .box-character:nth-child(2){
+    text-align:  right; 
+  } 
+  .batallaContainer .box-character-container .box-character:nth-child(2) figure img{
+    transform: rotateY(160deg);
+  } 
+.batallaContainer .box-character-container progress {
+    -webkit-appearance: none;
+  }
+ .batallaContainer .box-character-container .good::-webkit-progress-value {
+    background-color: green;
+    transition: all 1s;
+  }
+  .batallaContainer .box-character-container .critical::-webkit-progress-value {
+    background-color: red;
+  }
+  .batallaContainer .box-character-container ::-webkit-progress-bar {
+    background-color:#EEEEEE;
+  }
+  
+  .batallaContainer .box-character-container .box-character{
+      width: 50%;
+      padding: 15px;
+  }
+  .batallaContainer .box-character-container .box-character p{
+    margin: 0;
+  
+}
