@@ -1,2 +1,2 @@
 # fight-game
-Game html and Javascript
+Juego de lucha de dbz
