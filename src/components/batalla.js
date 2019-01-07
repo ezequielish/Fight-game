@@ -4,18 +4,21 @@ import Personajes from './personajeclass';
 import Modal from './modal';
 import './batalla.css';
 class Batalla extends Elementos{
-    constructor(p1,p2){
+    constructor(p1,p2,container,datos,arena){
         super()
-         this.p1 = p1;
-         this.p2 = p2;      
-         this.turno = []           
-         
-         this.render()
+        this.container = container;
+        this.datos = datos;
+        this.p1 = p1;
+        this.p2 = p2;      
+        this.turno = []     
+        this.arena = arena     
+        this.render()
     }
     
     render(){
+    
         $container.innerHTML = "";
-        this.batallaContainer = this.elementCreate('div',{class:"batallaContainer"},{style:"background-image:url('./src/assest/img/campo1.png');background-size:cover;width:100%;height:100%;"})
+        this.batallaContainer = this.elementCreate('div',{class:"batallaContainer"},{style:`background-image:url('./src/assest/img/${this.arena}');background-size:cover;width:100%;height:100%;`})
         this.dataP1 = new Personajes(this.p1);
         this.dataP2 = new Personajes(this.p2);
         $container.appendChild(this.batallaContainer);
@@ -94,9 +97,9 @@ class Batalla extends Elementos{
 
     finish(personaje){
         if(personaje == 2){
-            new Modal('Perdiste!!!',false,{p1:this.p1,p2:this.p2})
+            new Modal('Perdiste!!!',false,{p1:this.p1,p2:this.p2},this.container,this.datos,this.arena)
         }else{
-            new Modal('Ganaste!!!',true,{p1:this.p1,p2:this.p2})
+            new Modal('Ganaste!!!',true,{p1:this.p1,p2:this.p2},this.container,this.datos,this.arena)
         }
     }
 }

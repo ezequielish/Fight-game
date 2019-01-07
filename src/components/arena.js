@@ -1,11 +1,13 @@
 
 const path = require('path');
 import Personajes from './personajes';
-import  './arena.css';
 import Elementos from './elementos';
+import  './arena.css';
+import './loading.css';
 class Arena extends Elementos{
     constructor(container,datos){
         super()
+        this.datos = datos
         this.arena = datos.arena
         this.container = container
         this.renderArena()
@@ -52,7 +54,7 @@ class Arena extends Elementos{
     }
 
     arenaCheck(ev){
-        new Personajes(this.container, ev.target.dataset.arena)
+        new Personajes(this.container, ev.target.dataset.arena,this.datos)
     }
 }
 export default Arena;

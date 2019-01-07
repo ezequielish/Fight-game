@@ -4,7 +4,7 @@ class Personje{
     constructor(idPersonaje){
         this.idPersonaje = idPersonaje;
         this.vida = 100;
-        this.maxHit = 200;
+        this.maxHit = 30;
         this.filtrarPersonaje()
     }
 

@@ -1,210 +1,214 @@
-import data from '../data/data';
-import './personajes.css';
+
 import iniciarBatalla from './batalla';
-const $personajes = document.createElement('div');
-$personajes.setAttribute('class','personajes');
-const $personajesItems = document.createElement('div');
-$personajesItems.setAttribute('class','personjes-templates');
-const $selectedTemplate = document.createElement('div');
-$selectedTemplate.setAttribute('class','select-personaje')
-const $itemsPersonaje = document.createElement('div');
-$itemsPersonaje.setAttribute('class','items-personajes');
-const PS1 = null;
-const PS2 = null;
+import Elementos from './elementos';
+import './personajes.css';
+import './loading.css';
 
-let p1 = false;
-let p2 = false;
-const personajes = ($container, arenaID) => {
-    $container.innerHTML = "";
-    $container.append($personajes)
-    const arena = data.arena.filter(mapa =>{
-       return  mapa.id.includes(arenaID)  
-    })
+
+class Personajes extends Elementos{
+    constructor(container,arenaID,datos){
+        super()
+        this.arena = arenaID
+        this.datos = datos
+        this.jugadores = 2;
+        this.container = container
+        this.count = []
+        this.renderPersonajes()
+        
+    }
+
   
-    arena.map(arena =>{       
-        const templateArena = arenatemplate(arena)
-        const arenaHTML = createTemplate(templateArena);
-        $personajes.append(arenaHTML);
-    })
-        const $title = document.createElement('h3');
-        $title.textContent = "Selecciona un personaje";
-        $personajesItems.append($title);
-        $personajes.append($personajesItems)
-    data.personajes.map(personaje =>{
-        const templatePersonajes = personajesTemplate(personaje);
-        const personajesHTML = createTemplate(templatePersonajes);
-        $personajesItems.append($itemsPersonaje);
-        $itemsPersonaje.append(personajesHTML);
-        let $imgFace = $personajes.querySelector(`.p-face-${personaje.id}`);
-        $imgFace.addEventListener('click', (ev)=>{
-            selectedP(ev)
+    renderPersonajes(){
+      
+        this.container.innerHTML = "";
+        // La arena que se Selecciono
+        const $personajesContainer = this.elementCreate('div',{class:'container-personajes'});
+        this.container.appendChild($personajesContainer)
+        
+        const $arena = this.createTemplate(this.templateArena(this.arenaID()))
+        $personajesContainer.appendChild($arena)
+        const $victorias = this.elementCreate('div', {style:"position:absolute; top:0; right:0; width:100px; height:auto;" })
+        if(!localStorage){
+            $victorias.textContent= "Victorias : 0";
+        }else{
+            $victorias.textContent= `Victorias : ${localStorage.getItem('victoria')}`;
+        }
+        $personajesContainer.appendChild($victorias)
+        const arenaImg = document.querySelector('.arena-img');
+        arenaImg.addEventListener('load', (ev)  =>{
+            ev.target.nextElementSibling.classList.add('load-icon-desactive')
+            ev.target.style.display='block';   
         })
-    })
-    const selectP = selectPersonaje(data.personajes.length);
-    const selectPHtml = createTemplate(selectP);
-    $selectedTemplate.append(selectPHtml);
-    $personajes.append($selectedTemplate);
-
-    const $buttonsSelect = $selectedTemplate.querySelectorAll('.button-select');
-    buttonSelect($buttonsSelect)
-  
-}
-
-function buttonSelect(btn){
-    btn.forEach(i =>{
-        i.addEventListener('click', (ev) =>{
-            selectedP(ev)
-        })
-    })
-}
 
 
-const selectedP = (ev) =>{
-    let $p1div = null;
-    let $p2div = null;
+        // Lista de personajes
+        this.listarPersonaje($personajesContainer)
+        
+        // Selección de personajes
+        this.seleccionPersonajeImg()
 
-    $p1div = $personajes.querySelector(".p-1");
-    $p2div = $personajes.querySelector(".p-2");
-    const $checkP1 = $p1div.querySelector('.photo-select-check');
-    const $checkP2 = $p2div.querySelector('.photo-select-check');
-
-
-   if(!p1){
-  
-       if(ev.target.tagName == "IMG") //definir si viene desde las imágenes o desde el button random
-       {
-            const $img = ev.target;
-            $img.setAttribute('width','100px'); 
-            $img.setAttribute('height','100px');            
-            const clone  = $img.cloneNode();
-            $checkP1.innerHTML = "";
-            $checkP1.appendChild(clone);
-            const $btnFijar = document.createElement('button');
-            $btnFijar.textContent = "Fijar";
-            const $btnFijarHtml = $btnFijar;
-            $checkP1.append($btnFijarHtml)
-            $btnFijar.addEventListener('click',selectCheckP)
-
-       }
-       else
-       {
-
-            const numLimit = ev.target.dataset.cant;
-            const numRandom = Math.round( Math.random() * (numLimit - 1) + 1)
-            const personaje = data.personajes.filter(personaje =>{
-                return  personaje.id.includes(numRandom)  
-             })
-           personaje.forEach(p => {
-                const img = `<img src="./src/assest/img/face/${p.image_face}" data-p="${p.id}" height="100px" width="100px" />`;
-                const imgHtml = createTemplate(img);
-                $checkP1.innerHTML = "";
-                $checkP1.appendChild(imgHtml);
-                const $btnFijar = document.createElement('button');
-                $btnFijar.textContent = "Fijar";
-                const $btnFijarHtml = $btnFijar;
-                $checkP1.append($btnFijarHtml)
-                $btnFijar.addEventListener('click',selectCheckP)
+    }
+    
+    templateContainerPersonajes(p){
+        return(`
+            <div class="SelectP">
+                <p>Selecciona personaje</p>
+                <p>Jugador ${p}</p>
+                
+            </div>
+        `)
+    }
+    personajesItems(){
+        const personajes = this.datos.personajes.map(personaje =>{
+                 let itemP = this.templatePersonajes(personaje)
+                 return this.createTemplate(itemP)
             })
 
-       }
-
-   }else{
-
-    if(ev.target.tagName == "IMG") //definir si viene desde las imágenes o desde el button random
-    {
-       const $img = ev.target;
-       $img.setAttribute('width','100px');
-       $img.setAttribute('height','100px');   
-       const clone  = $img.cloneNode();
-       $checkP2.innerHTML = "";
-       $checkP2.appendChild(clone);
-       const $btnFijar = document.createElement('button');
-        $btnFijar.textContent = "Fijar";
-        const $btnFijarHtml = $btnFijar;
-        $checkP2.append($btnFijarHtml)
-        $btnFijar.addEventListener('click',selectCheckP)
+        return personajes;
     }
-    else
-    {
-        const numLimit = ev.target.dataset.cant;
-        const numRandom = Math.round( Math.random() * (numLimit - 1) + 1)
-        const personaje = data.personajes.filter(personaje =>{
-            return  personaje.id.includes(numRandom)  
-         })
-       personaje.forEach(p => {
-            const img = `<img src="./src/assest/img/face/${p.image_face}" data-p="${p.id}" height="100px width="100px" />`;
-            const imgHtml = createTemplate(img);
-
-            $checkP2.innerHTML = "";
-            $checkP2.appendChild(imgHtml);
-            const $btnFijar = document.createElement('button');
-            $btnFijar.textContent = "Fijar";
-            const $btnFijarHtml = $btnFijar;
-            $checkP2.append($btnFijarHtml)
-            $btnFijar.addEventListener('click',selectCheckP)
-        })
-
-    }
+    selectedPersonaje(img, parentN){
+        //Seleccionamos la imagén y creamos un templare con ella borramos el los hijos del padre luego colocamos la img seleccionada.
+        let $templateSelected = null;
+        if(img.target){
+            $templateSelected = this.createTemplate(this.templateSelected(img.target)) //img
+        }else{
+            $templateSelected = this.createTemplate(this.templateSelected(img)) //random
+        }
       
-   }
-}
-const selectCheckP = (ev) =>{
-    
-    ev.target.parentNode.previousElementSibling.disabled = true;
-    ev.target.disabled = true;  
-    if(p1){
-        let PID = document.querySelectorAll('.photo-select-check');
-        iniciarBatalla(PID[0].firstElementChild.dataset.p,PID[1].firstElementChild.dataset.p)
-    }else{
-       p1 = true; 
-       document.getElementById('randon-2').disabled = false;      
-    }
-    
-}
-const selectPersonaje = (cantP) =>{
-    return(`
-        <div class="select-personaje">
-            <div class="p-1 personaje-selected">
-            <p>Personaje 1</p>
-                <button data-cant="${cantP}" id="randon-1" class="button-select">
-                    random
-                </button>
-                <div class="photo-select-check">
-                </div>
-            </div>
-            <div class="p-2 personaje-selected">
-            <p>Personaje 2</p>
-                <button data-cant="${cantP}" id="randon-2" class="button-select" disabled>
-                    random
-                </button>
-                <div class="photo-select-check">
-                </div>
-            </div>
-        </div>
-    `)
-}
-function createTemplate(HTMLString) {
-    const html = document.implementation.createHTMLDocument();
-    html.body.innerHTML = HTMLString;
-    return html.body.children[0];
-  }
+        if(parentN){
+           parentN.innerHTML = "";
+           parentN.appendChild($templateSelected)
+           this.count.push(img.target)
+              //quitar el personaje seleccionado
+            this.quitar()
+            if(this.count.length >= 2){
+                const parent = document.querySelector('.container-selectP');
+                const empezar = this.elementCreate('div',{id:"empezar"},{style:'position:absolute; display:flex; justify-content:center; width: 100%;'});
+                empezar.innerHTML = `<button class="btn-empezar">Empezar pelea</button>`;
+                parent.appendChild(empezar)
+                const btnEmpezar = document.querySelector('.btn-empezar');
+                btnEmpezar.addEventListener('click', this.startFight.bind(this))
+            }
+        }
 
-const personajesTemplate = (personajes) =>{
-    return(`
-            <figure class="p-face-${personajes.id}">
-                <span>${personajes.nombre}</span>
-                <img src="./src/assest/img/face/${personajes.image_face}" width="100%" height="100%" data-p="${personajes.id}" />
-            </figure>
-    `)
+    }
+    quitar(){
+       
+        const $quitar = document.querySelectorAll('.quitar');
+        
+     
+        $quitar.forEach(element =>{
+            element.addEventListener('click', (ev) =>{
+                document.getElementById('empezar').remove()
+                const $selectP =  ev.target.parentNode.parentNode.parentNode;
+                ev.target.parentNode.parentNode.remove()
+                this.renderListPersonajes($selectP)
+                this.seleccionPersonajeImg()
+                this.count.pop()
+            })
+        })
+          
+    }
+    seleccionPersonajeImg(){
+        const $img = document.querySelectorAll('.items-personajes img');
+        $img.forEach(element =>{
+            element.addEventListener('click', (ev)=>{
+                this.selectedPersonaje(ev,ev.target.parentNode.parentNode)
+            })
+        })
+    }
+    startFight(){
+        const id = document.querySelectorAll('.p-selected img');
+            let ids = []
+            id.forEach(id =>{
+                ids.push(id.dataset.p)
+            })
+            const arena = this.arenaID();
+            new iniciarBatalla(ids[0],ids[1],this.container,this.datos,arena.ruta);
+    }
+    templateSelected(img){
+        return(`
+            <div class="p-selected">
+                <img src=${img.src} width="100%" height="100%" data-p=${img.dataset.p} />
+                <button class="quitar">quitar</button>
+            </div>
+        `)
+    }
+    listarPersonaje(personajesContainer){
+        const $itemsPersonajes = this.elementCreate('div', {class: "container-selectP"}) 
+        for(let i = 1;  i <= this.jugadores; i++){
+            const $selectTemplate = this.createTemplate(this.templateContainerPersonajes(i))
+            personajesContainer.appendChild($itemsPersonajes);
+            $itemsPersonajes.appendChild($selectTemplate);
+        }
+
+        const $SelectP = $itemsPersonajes.querySelectorAll('.SelectP');
+        $SelectP.forEach(element => {
+                this.renderListPersonajes(element)
+        });
+        this.random()
+    }
+    random(){
+        const btn = document.querySelectorAll('.r-btn');
+        btn.forEach( element =>{
+            element.addEventListener('click', (ev)=>{
+                let parent = ev.target.parentNode.parentNode;
+                let max = parent.querySelectorAll('.items-personajes').length - 1;
+                const random = Math.round( Math.random() * (max - 0) + 1);
+                const img = parent.querySelectorAll('.items-personajes')[random - 1]
+                console.log(img.children[0].taeget)
+                this.selectedPersonaje(img.children[0],parent)
+                
+            })
+
+        })
+    }
+    renderListPersonajes(element){
+        //Listar el div que solo muestra los personajes pasando como parámetro el div padre
+        const $itemsSelectP = this.elementCreate('div', {class: "items-selectP"}) 
+        const $btnR = this.elementCreate('div',{class:'btn-random'},{style:'grid-column:1 / span 2; width:100%'}); 
+        $btnR.innerHTML = "<button class= 'r-btn'>random</button>";
+        $itemsSelectP.appendChild($btnR)
+        element.appendChild($itemsSelectP)
+            this.personajesItems().map(p =>{
+            $itemsSelectP.appendChild(p)
+        })
+    }
+
+    arenaID(){
+        const { arena } = this.datos 
+        let arenaID = arena.filter(arena =>{
+               return arena.id.includes(this.arena);
+        })
+        return arenaID[0]
+        
+    }
+
+    templatePersonajes(personaje){
+        return(`
+            
+                <div class="items-personajes">
+                    <img src="./src/assest/img/face/${personaje.image_face}" data-p="${personaje.id}" width="40%" height="100%" class='item-p'  />
+                </div>
+        `)
+    }
+
+    templateArena(arena){
+        
+        return(`
+            <div class="arena-check">
+                <figure>
+                <caption>Arena: ${arena.nombre}</caption>
+                    <img src="./src/assest/img/${arena.ruta}" style="display:none" class="arena-img" width="100%" height="100%" />
+                    <div class="load-icon-active">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/><path d="M0 0h24v24H0z" fill="none"/></svg>
+                    </div>
+                </figure>
+              
+            </div>
+        
+        `)
+    }
 }
-const arenatemplate = (arena) =>{
-    return (`
-        <div class="arena-selected">
-            <h2>${arena.nombre}</h2>
-            <figure>
-                <img src="./src/assest/img/${arena.ruta}" class="battle-arena"  width="100%" height="100%" data-arena="${arena.id}" />
-            </figure>
-        </div>
-    `)
-}
-export default personajes;
+
+export default Personajes;
