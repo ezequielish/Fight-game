@@ -1,0 +1,133 @@
+.barradiv{
+    height: 17px;
+    width: 160px;
+    position: relative;
+    border: solid black 1px;
+}
+progress{
+    height: 15px;
+    width: 100%;
+    position: absolute;
+}
+.full::-moz-progress-bar{
+    width: 100%;
+    background: green;
+  
+}
+ .barraVida::-moz-progress-bar {  
+    background: green;
+} 
+.vidaCritica::-moz-progress-bar {
+    background: red;
+} 
+#reload{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.contenedor{
+    display: grid;
+    height: 100vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.marco{
+    height: 600px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eeeeee;
+    box-shadow: 2px 0px 2px rgba(0, 0, 0, .6);
+    position: relative;
+}
+#empezar{
+    height: 80px;
+    width: 200px;
+    transition: 0.1s;
+    transform: scale(1);
+    background: #45aaf2;
+    border: none;
+    will-change: transform;
+    box-shadow: -1px -2px 3px rgba(0, 0, 0, .6) inset;
+    color:white;
+    position: absolute;
+    left: calc(50% - 100px);
+    top: calc(50% - 80px);
+    z-index: 1;
+}
+#empezar:active{
+    transform: scale(.9);
+}
+.pantalla{
+    height: 400px;
+    width: 300px;
+    border: solid 6px black;
+    opacity: 0;
+
+}
+.animarPantalla{
+    animation-name: mostrarScreen;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+    animation-delay: .5s;
+}
+@keyframes mostrarScreen{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+} 
+
+.personajes{
+    height:50%;
+    width:100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: 30px 1fr 1fr; 
+
+}
+.foto{
+    animation-name: foto;
+    animation-iteration-count: 3;
+    animation-timing-function: linear;
+    animation-duration:.3s;
+}
+@keyframes foto{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+.personajes:nth-of-type(1){
+    border-bottom: black 1px solid;
+}
+.personajes .nombre{
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 2;
+}
+.personajes .estadisticas{
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 3;
+}
+.nombre p{
+    margin: 0;
+}
+
+.pantalla figure{
+    grid-auto-columns: 2 / span 2;
+    height: 80px;
+    width: 100%;
+    margin: 0;    
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,.6);
+}
+.personajes button{
+    grid-column: 2 / span 2;
+    grid-row: 3 / span 3;
+}
