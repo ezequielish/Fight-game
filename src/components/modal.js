@@ -43,21 +43,21 @@ class Modal extends  Elementos {
         `)
     }
     iniciar(){
+        this.victoria()
         new Arena(this.container,this.datos)
     }
     reiniciar(){
-      let storage = window.localStorage;
+        this.victoria()
+        new Batalla(this.p1,this.p2,this.container,this.datos,this.arena);
+    }
+    victoria(){
+        let storage = window.localStorage;
         let victorias = localStorage.getItem('victoria');
       
         if(this.ganador == 1)
         {
             localStorage.getItem('victoria') ? localStorage.setItem('victoria', (parseInt(victorias) + 1) ) : localStorage.setItem('victoria', 1)
         }
-        new Batalla(this.p1,this.p2,this.container,this.datos,this.arena);
-
-  
-        
- 
     }
 }
 

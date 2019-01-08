@@ -7,6 +7,4 @@ const datos = {
     arena: data.arena,
     personajes: data.personajes
 }
-// window.onload = new Arena($container,datos);
-window.onload = new Personajes($container,1,datos);
-// window.onload = new Batalla(2,4);
+window.onload = new Arena($container,datos);
